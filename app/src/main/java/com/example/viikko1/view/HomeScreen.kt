@@ -48,10 +48,7 @@ fun HomeScreen(
 ) {
     val tasks by viewModel.tasks.collectAsState()
     val selectedTask by viewModel.selectedTask.collectAsState()
-    var newTaskTitle by remember { mutableStateOf("") }
     var showAddDialog by remember { mutableStateOf(false) }
-
-
 
     Scaffold { paddingValues ->
         Column(modifier = Modifier
@@ -69,10 +66,6 @@ fun HomeScreen(
                     }
                 }
             )
-
-
-
-
 
             Spacer(modifier = Modifier.height(16.dp))
 

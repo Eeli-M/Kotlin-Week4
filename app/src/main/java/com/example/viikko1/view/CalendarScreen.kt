@@ -29,27 +29,26 @@ import com.example.viikko1.viewmodel.TaskViewModel
 @Composable
 fun CalendarScreen(
     viewModel: TaskViewModel,
-    onTaskClick: (Int) -> Unit = {},
+    onTaskClick: () -> Unit = {},
     onNavigateHome: () -> Unit
 ) {
     val tasks by viewModel.tasks.collectAsState()
     val selectedTask by viewModel.selectedTask.collectAsState()
     val grouped = tasks.groupBy { it.dueDate }
 
-    Column(modifier = Modifier.padding(16.dp)) {
 
-        Scaffold(
-            topBar = {
-                TopAppBar(
-                    title = { Text("Calendar") },
-                    navigationIcon = {
-                        IconButton(onClick = onNavigateHome) {
-                            Icon(Icons.Filled.List, contentDescription = "Task List")
-                        }
+    Scaffold(
+        topBar = {
+            TopAppBar(
+                title = { Text("Calendar") },
+                navigationIcon = {
+                    IconButton(onClick = onNavigateHome) {
+                        Icon(Icons.Filled.List, contentDescription = "Task List")
                     }
-                )
-            }
-        ) { paddingValues ->
+                }
+            )
+        }
+    ) { paddingValues ->
 
         LazyColumn(
             modifier = Modifier
@@ -68,12 +67,12 @@ fun CalendarScreen(
                 items(tasksOfDay) { task ->
                     CalendarTaskCard(
                         task = task,
-                        onTaskClick = { id -> onTaskClick(id) }
+                        onTaskClick = { viewModel.selectTask(task) }
                     )
                 }
             }
         }
-        }
+
     }
 
     if (selectedTask != null) {
@@ -91,13 +90,13 @@ fun CalendarScreen(
 @Composable
 fun CalendarTaskCard(
     task: Task,
-    onTaskClick: (Int) -> Unit
+    onTaskClick: () -> Unit
 ) {
     Card(
         modifier = Modifier
             .padding(vertical = 4.dp)
             .fillMaxWidth()
-            .clickable { onTaskClick(task.id) }
+            .clickable { onTaskClick() }
     ) {
         Column(modifier = Modifier.padding(12.dp)) {
             Text(task.title, style = MaterialTheme.typography.titleMedium)

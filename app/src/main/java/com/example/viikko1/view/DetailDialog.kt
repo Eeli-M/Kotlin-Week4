@@ -22,22 +22,30 @@ fun DetailDialog(
 ) {
     var title by remember { mutableStateOf(task.title) }
     var description by remember { mutableStateOf(task.description) }
+    var dueDate by remember { mutableStateOf(task.dueDate)}
 
     AlertDialog(
         onDismissRequest = onClose,
         title = { Text("Edit Task") },
         text = {
             Column {
-                TextField(value = title, onValueChange = { title = it }, label = { Text("Title") })
+                TextField(value = title,
+                    onValueChange = { title = it },
+                    label = { Text("Title") })
                 TextField(
                     value = description,
                     onValueChange = { description = it },
                     label = { Text("Description") })
+                TextField(
+                    value = dueDate,
+                    onValueChange = { dueDate = it },
+                    label = { Text("Due date") }
+                )
             }
         },
         confirmButton = {
             Button(onClick = {
-                onUpdate(task.copy(title = title, description = description))
+                onUpdate(task.copy(title = title, description = description, dueDate = dueDate))
             }) {
                 Text("Save")
             }
